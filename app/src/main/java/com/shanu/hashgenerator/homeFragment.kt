@@ -21,11 +21,18 @@ class homeFragment : Fragment() {
         val hashAlgo = resources.getStringArray(R.array.hashAlgo)
         val arrayAdapter = ArrayAdapter(requireContext(),R.layout.drop_down,hashAlgo)
         binding.autoCompleteTextView.setAdapter(arrayAdapter)
+        binding.generateButton.setOnClickListener {
+            applyAnimation()
+        }
         return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.home_menu,menu)
+    }
+    fun applyAnimation(){
+        binding.tvTitle.animate().alpha(0f).duration = 400L
+        binding.generateButton.animate().alpha(0f).duration = 400L
     }
 
     override fun onDestroy() {

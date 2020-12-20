@@ -9,6 +9,18 @@
     tools:context=".homeFragment">
 
 
+    <View
+        android:id="@+id/success_background"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:alpha="0"
+        android:background="@color/teal_200"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
@@ -65,7 +77,8 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textMultiLine"
-        android:textColorHint="@color/dark_blue"
+        android:background="@color/dark_blue"
+        android:textColorHint="@color/dark"
         android:gravity="start|top"
         android:maxLines="6"
         android:padding="16dp"
@@ -91,4 +104,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/successImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:src="@drawable/ic_baseline_done_outline_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
