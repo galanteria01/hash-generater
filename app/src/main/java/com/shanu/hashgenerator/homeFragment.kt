@@ -22,8 +22,8 @@ class homeFragment : Fragment() {
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater,container,false)
         setHasOptionsMenu(true)
-        val hashAlgo = resources.getStringArray(R.array.hashAlgo)
-        val arrayAdapter = ArrayAdapter(requireContext(),R.layout.drop_down,hashAlgo)
+        val hashAlgor = resources.getStringArray(R.array.hashAlgo)
+        val arrayAdapter = ArrayAdapter(requireContext(),R.layout.drop_down,hashAlgor)
         binding.autoCompleteTextView.setAdapter(arrayAdapter)
         binding.generateButton.setOnClickListener {
             lifecycleScope.launch{
@@ -38,6 +38,7 @@ class homeFragment : Fragment() {
         inflater.inflate(R.menu.home_menu,menu)
     }
     private suspend fun applyAnimation(){
+        binding.generateButton.isClickable = false
         binding.tvTitle.animate().alpha(0f).duration = 400L
         binding.generateButton.animate().alpha(0f).duration = 400L
         binding.textInputLayout.animate()
@@ -63,9 +64,11 @@ class homeFragment : Fragment() {
     private fun navigateToSuccess(){
         findNavController().navigate(R.id.action_homeFragment_to_successFragment)
     }
-    override fun onDestroy() {
-        super.onDestroy()
+
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
+
     }
 
 
