@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.shanu.hashgenerator.databinding.FragmentHomeBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -14,6 +16,8 @@ import kotlinx.coroutines.launch
 class homeFragment : Fragment() {
     private var _binding:FragmentHomeBinding?=null
     private val binding get() = _binding!!
+    private val homeViewModel:HomeViewModel by viewModels()
+
 
 
     override fun onCreateView(
@@ -22,14 +26,10 @@ class homeFragment : Fragment() {
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater,container,false)
         setHasOptionsMenu(true)
-        val hashAlgor = resources.getStringArray(R.array.hashAlgo)
-        val arrayAdapter = ArrayAdapter(requireContext(),R.layout.drop_down,hashAlgor)
-        binding.autoCompleteTextView.setAdapter(arrayAdapter)
+
         binding.generateButton.setOnClickListener {
-            lifecycleScope.launch{
-                applyAnimation()
-                navigateToSuccess()
-            }
+            onGenerateClicked()
+            getHashData()
         }
         return binding.root
     }
@@ -65,9 +65,56 @@ class homeFragment : Fragment() {
         findNavController().navigate(R.id.action_homeFragment_to_successFragment)
     }
 
+    override fun onResume() {
+        super.onResume()
+        val hashAlgorithms = resources.getStringArray(R.array.hashAlgo)
+        val arrayAdapter = ArrayAdapter(requireContext(),R.layout.drop_down,hashAlgorithms)
+        binding.autoCompleteTextView.setAdapter(arrayAdapter)
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.clearMenu){
+            binding.plainText.text.clear()
+            showSnackBar("Cleared")
+            return true
+        }
+        return true
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+
+    }
+
+    private fun onGenerateClicked(){
+        if(!binding.plainText.text.isEmpty()){
+            lifecycleScope.launch{
+                applyAnimation()
+                navigateToSuccess()
+            }
+        }else{
+            showSnackBar("Field Empty")
+        }
+
+    }
+
+    private fun showSnackBar(message:String){
+        val snackBar = Snackbar.make(
+                binding.rootLayout,
+                message,
+                Snackbar.LENGTH_SHORT
+        )
+        snackBar.setAction("Okay"){}
+        snackBar.show()
+
+    }
+
+    private fun getHashData():String{
+        val algorithm = binding.autoCompleteTextView.text.toString()
+        val textToHash = binding.plainText.text.toString()
+        return homeViewModel.getHash(textToHash,algorithm)
 
     }
 
