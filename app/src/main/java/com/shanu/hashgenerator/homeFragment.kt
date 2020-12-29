@@ -29,7 +29,7 @@ class homeFragment : Fragment() {
 
         binding.generateButton.setOnClickListener {
             onGenerateClicked()
-            getHashData()
+            navigateToSuccess(getHashData())
         }
         return binding.root
     }
@@ -61,8 +61,9 @@ class homeFragment : Fragment() {
         delay(1500L)
     }
 
-    private fun navigateToSuccess(){
-        findNavController().navigate(R.id.action_homeFragment_to_successFragment)
+    private fun navigateToSuccess(hash:String){
+        val directions = homeFragmentDirections.actionHomeFragmentToSuccessFragment(hash)
+        findNavController().navigate(directions)
     }
 
     override fun onResume() {
@@ -92,7 +93,7 @@ class homeFragment : Fragment() {
         if(!binding.plainText.text.isEmpty()){
             lifecycleScope.launch{
                 applyAnimation()
-                navigateToSuccess()
+                navigateToSuccess(getHashData())
             }
         }else{
             showSnackBar("Field Empty")

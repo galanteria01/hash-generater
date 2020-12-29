@@ -22,9 +22,13 @@
         android:id="@+id/successFragment"
         android:name="com.shanu.hashgenerator.successFragment"
         android:label="Success"
-        tools:layout="@layout/Success">
+        tools:layout="@layout/fragment_success">
         <action
             android:id="@+id/action_successFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <argument
+            android:name="hashedValue"
+            app:argType="string"
+            android:defaultValue="Empty"/>
     </fragment>
 </navigation>
