@@ -23,13 +23,13 @@ class homeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater,container,false)
         setHasOptionsMenu(true)
 
         binding.generateButton.setOnClickListener {
             onGenerateClicked()
-            navigateToSuccess(getHashData())
+//            navigateToSuccess(getHashData())
         }
         return binding.root
     }
@@ -90,12 +90,13 @@ class homeFragment : Fragment() {
     }
 
     private fun onGenerateClicked(){
-        if(!binding.plainText.text.isEmpty()){
-            lifecycleScope.launch{
+        if(binding.plainText.text.isNotEmpty()) {
+            lifecycleScope.launch {
                 applyAnimation()
                 navigateToSuccess(getHashData())
             }
-        }else{
+        }
+        else{
             showSnackBar("Field Empty")
         }
 
